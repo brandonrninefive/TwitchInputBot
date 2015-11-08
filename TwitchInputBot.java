@@ -27,30 +27,30 @@ public class TwitchInputBot
         possibleInputs.add("z");
         possibleInputs.add("l");
         possibleInputs.add("r");
-        possibleInputs.add("stickup");
-        possibleInputs.add("stickupright");
-        possibleInputs.add("stickright");
-        possibleInputs.add("stickdownright");
-		possibleInputs.add("stickdown");
-        possibleInputs.add("stickdownleft");
-        possibleInputs.add("stickleft");
-		possibleInputs.add("stickupleft");
-        possibleInputs.add("cstickup");
-		possibleInputs.add("cstickupright");
-		possibleInputs.add("cstickright");
-		possibleInputs.add("ctickdownright");
-		possibleInputs.add("cstickdown");
-		possibleInputs.add("cstickdownleft");
-		possibleInputs.add("cstickleft");
-		possibleInputs.add("cstickupleft");
-        possibleInputs.add("dpadup");
-        possibleInputs.add("dpadupright");
-        possibleInputs.add("dpadright");
-        possibleInputs.add("dpaddownright");
-        possibleInputs.add("dpaddown");
-        possibleInputs.add("dpaddownleft");
-        possibleInputs.add("dpadleft");
-        possibleInputs.add("dpadupleft");
+        possibleInputs.add("sup");
+        possibleInputs.add("supright");
+        possibleInputs.add("sright");
+        possibleInputs.add("sdownright");
+		possibleInputs.add("sdown");
+        possibleInputs.add("sdownleft");
+        possibleInputs.add("sleft");
+		possibleInputs.add("supleft");
+        possibleInputs.add("cup");
+		possibleInputs.add("cupright");
+		possibleInputs.add("cright");
+		possibleInputs.add("cdownright");
+		possibleInputs.add("cdown");
+		possibleInputs.add("cdownleft");
+		possibleInputs.add("cleft");
+		possibleInputs.add("cupleft");
+        possibleInputs.add("dup");
+        possibleInputs.add("dupright");
+        possibleInputs.add("dright");
+        possibleInputs.add("ddownright");
+        possibleInputs.add("ddown");
+        possibleInputs.add("ddownleft");
+        possibleInputs.add("dleft");
+        possibleInputs.add("dupleft");
         possibleInputs.add("start");
 
         // The channel which the bot will join.
@@ -82,9 +82,13 @@ public class TwitchInputBot
             }
         }
 
+        //System.out.println(line + "--*");
+
         // Join the channel.
         writer.write("JOIN " + channel + "\r\n");
         writer.flush( );
+
+        boolean isFirst = true;
 
         // Keep reading lines from the server.
         while ((line = reader.readLine( )) != null)
@@ -100,6 +104,9 @@ public class TwitchInputBot
             {
                 // Print the raw line received by the bot.
                 String input = line;
+
+
+
 				int index = input.indexOf(" :");
 				if(index != -1)
 				{
@@ -112,7 +119,12 @@ public class TwitchInputBot
 						String token = tokenizer.nextToken();
 						if(possibleInputs.contains(token))
 						{
-							currentTokens.add(token);
+							if(!isFirst)
+                            {
+                                currentTokens.add(token);
+                            }
+                            else
+                                isFirst = false;
 						}
 					}
 					if(!currentTokens.isEmpty())
@@ -136,6 +148,7 @@ public class TwitchInputBot
 							inputCount.put(output, new Integer(1));
 
 						System.out.println(inputCount.get(output).intValue());
+                        System.out.println(output);
 					}
 				}
 				System.out.println(line);
